@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Attendance Tracker</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <meta name="description" content="Track and manage student attendance easily and efficiently." />
+  <meta name="keywords" content="Student, Attendance, Tracker, School" />
+  <meta name="author" content="Your Name" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .app-container {
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    .button-hover {
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .button-hover:hover {
+      transform: scale(1.05);
+    }
+    .table-striped tbody tr:nth-child(even) {
+      background-color: #f9fafb;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen flex flex-col">
+  <header class="bg-indigo-700 text-white py-4 shadow-md">
+    <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold">🎓 AttendancePro</h1>
+      <nav>
+        <ul class="flex space-x-6">
+          <li><a href="#" class="hover:text-indigo-200">Home</a></li>
+          <li><a href="#" class="hover:text-indigo-200">Features</a></li>
+          <li><a href="#" class="hover:text-indigo-200">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="flex-grow">
+    <div class="max-w-5xl mx-auto bg-white p-10 mt-10 rounded-3xl app-container shadow-2xl">
+      <h2 class="text-4xl font-extrabold text-center mb-10 text-indigo-800 tracking-wide">Student Attendance Tracker</h2>
+
+      <div class="flex gap-4 mb-6">
+        <input id="studentName" type="text" placeholder="Enter student name" class="flex-1 border border-indigo-300 rounded-2xl p-4 shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        <button onclick="addStudent()" class="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-semibold button-hover shadow-md">Add Student</button>
+      </div>
+
+      <div class="flex gap-4 mb-6">
+        <input id="searchInput" type="text" placeholder="Search student by name" class="flex-1 border border-indigo-300 rounded-2xl p-4 shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        <button onclick="searchStudent()" class="bg-indigo-500 text-white px-6 py-3 rounded-2xl font-semibold button-hover shadow-md">Search</button>
+      </div>
+
+      <div class="overflow-x-auto rounded-xl shadow-md">
+        <table class="w-full border border-gray-300 text-sm table-striped">
+          <thead class="bg-indigo-100 text-indigo-900 text-md">
+            <tr>
+              <th class="p-4 text-left">Name</th>
+              <th class="p-4 text-left">Attendance</th>
+              <th class="p-4 text-left">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="studentTable" class="bg-white"></tbody>
+        </table>
+      </div>
+
+      <div class="flex flex-wrap gap-4 my-10 justify-center">
+        <button onclick="showTotalAttendance()" class="bg-green-500 text-white px-6 py-3 rounded-2xl font-semibold button-hover shadow-md">Show Total Attendance</button>
+        <button onclick="downloadPDF()" class="bg-rose-500 text-white px-6 py-3 rounded-2xl font-semibold button-hover shadow-md">Download PDF</button>
+        <button onclick="downloadCSV()" class="bg-blue-500 text-white px-6 py-3 rounded-2xl font-semibold button-hover shadow-md">Download CSV</button>
+        <button onclick="clearAllAttendance()" class="bg-gray-600 text-white px-6 py-3 rounded-2xl font-semibold button-hover shadow-md">Clear All Attendance</button>
+      </div>
+
+      <span id="totalAttendanceDisplay" class="block text-center text-lg font-medium text-gray-800 mb-6"></span>
+
+      <div class="flex flex-col md:flex-row items-center gap-4 justify-center my-6">
+        <input type="date" id="attendanceDate" class="border border-indigo-300 rounded-2xl p-4 shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        <button onclick="addDailyAttendance()" class="bg-yellow-600 text-white px-6 py-3 rounded-2xl font-semibold button-hover shadow-md">Mark Attendance for Today</button>
+      </div>
+
+      <div class="flex justify-center mb-6 gap-4">
+        <button onclick="shareAttendanceEmail()" class="bg-purple-600 text-white px-6 py-3 rounded-2xl font-semibold button-hover shadow-md">Share via Email</button>
+        <button onclick="shareAttendanceWhatsApp()" class="bg-green-600 text-white px-6 py-3 rounded-2xl font-semibold button-hover shadow-md">Share via WhatsApp</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-gray-100 text-center text-sm text-gray-600 py-6 mt-10 border-t">
+    © <span id="year"></span> AttendancePro. All rights reserved.
+  </footer>
+
+ <script src="script.js"></script>
+</body>
+</html>
